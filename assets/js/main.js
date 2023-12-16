@@ -255,7 +255,6 @@
         // Poptrox.
         $main.poptrox({
             baseZIndex: 20000,
-            caption: 'test',
             fadeSpeed: 300,
             onPopupClose: function () {
                 $body.removeClass('modal-active');

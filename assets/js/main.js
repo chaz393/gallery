@@ -2,6 +2,8 @@
  Multiverse by HTML5 UP
  html5up.net | @ajlkn
  Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+
+ Added EXIF data and enhanced for Jekyll by Ram Patra
  */
 
 (function ($) {
@@ -213,7 +215,8 @@
         });
 
         // Main.
-        var $main = $('#main');
+        var $main = $('#main'),
+            exifDatas = {};
 
         // Thumbs.
         $main.children('.thumb').each(function () {
@@ -249,11 +252,30 @@
                     .on('click', function () {
                         $image.trigger('click');
                     });
+
+            // EXIF data
+            $image_img[0].addEventListener("load", function() {
+                EXIF.getData($image_img[0], function () {
+                    exifDatas[$image_img.data('name')] = getExifDataMarkup(this);
+                });
+            });
+
         });
 
         // Poptrox.
         $main.poptrox({
             baseZIndex: 20000,
+            caption: function ($a) {
+                var $image_img = $a.children('img');
+                var data = exifDatas[$image_img.data('name')];
+                if (data === undefined) {
+                    // EXIF data					
+                    EXIF.getData($image_img[0], function () {
+                        data = exifDatas[$image_img.data('name')] = getExifDataMarkup(this);
+                    });
+                }
+                return data !== undefined ? '<p>' + data + '</p>' : ' ';
+            },
             fadeSpeed: 300,
             onPopupClose: function () {
                 $body.removeClass('modal-active');
@@ -285,6 +307,20 @@
             .on('+xsmall', function () {
                 $main[0]._poptrox.windowMargin = 0;
             });
+
+        function getExifDataMarkup(img) {
+            var exif = $('#main').data('exif');
+            var template = '';
+            for (var current in exif) {
+                var current_data = exif[current];
+                var exif_data = EXIF.getTag(img, current_data['tag']);
+                if (typeof exif_data !== "undefined") {
+                    template += '<i class="fa fa-' + current_data['icon'] + '" aria-hidden="true"></i> ' + exif_data + '&nbsp;&nbsp;';
+                }
+            }
+            return template;
+        }
+
     });
 
 })(jQuery);

@@ -1,0 +1,12 @@
+# Base configs
+baseurl: ""
+image_fulls_loc: "/images/fulls"
+image_thumbs_loc: "/images/thumbs"
+
+# UI configs
+title: "Example"
+header:
+ title: "Example"
+social_urls:
+  twitter: "https://x.com/example"
+  instagram: "https://instagram.com/example"

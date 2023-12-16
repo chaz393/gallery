@@ -1,0 +1,29 @@
+---
+layout: default
+---
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+    <!-- Header -->
+    <header id="header">
+        <h1 style="font-size: 24px;">
+            <a href="index.html"><strong>{{ site.header.title }}</strong></a>
+            <a href="#" onclick='window.open("{{ site.social_urls.twitter }}");return false;' class="icon fa-twitter" style="padding-left: 16px;"></a>
+            <a href="#" onclick='window.open("{{ site.social_urls.instagram }}");return false;' class="icon fa-instagram" style="padding-left: 16px;"></a>
+        </h1>
+    </header>
+
+    <!-- Main -->
+    <div id="main">
+        {% for image in site.static_files %}
+        {% if image.path contains 'fulls' %}
+        <article class="thumb">
+            <a href="{{ site.baseurl }}{{ site.image_fulls_loc }}/{{ image.name }}" class="image">
+                <img src="{{ site.baseurl }}{{ site.image_thumbs_loc }}/{{ image.name }}" alt=""
+                     data-name="{{ image.name }}"/></a>
+        </article>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
